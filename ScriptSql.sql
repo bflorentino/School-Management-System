@@ -96,6 +96,38 @@ Create table HistorialAsistencia
   foreign key (Codigo_Materia) references Materias(Codigo_Materia)
 )
 
+Create table AvisosAdministración
+(
+ IdAviso int primary key, 
+ DetalleAviso varchar(max) not null,
+ DirigidoA varchar(50) 
+	check (DirigidoA in('Maestros', 'Toda la escuela', 'Padres', 'Toda la comunidad Educativa')),
+ Fecha date not null,
+ VigenciaHasta date not null
+)
+
+Create table AvisosMaestros
+(
+ IdAviso int primary key,
+ CedulaMaestro varchar(11) not null,
+ DetalleAviso varchar(max) not null,
+ Fecha date not null,
+ HoraRegistrado time not null,
+ VigenciaHasta date not null
+
+ Foreign key(CedulaMaestro) references Maestros(Cedula)
+)
+
+Create table AvisosCursos
+(
+ IdAviso int,
+ Codigo_Seccion varchar(10) not null,
+
+ primary key(IdAviso, Codigo_Seccion),
+ foreign key (IdAviso) references AvisosMaestros (IdAviso),
+ foreign key (Codigo_Seccion) references Secciones(Codigo_Seccion)
+)
+
 Create table ReportesAEstudiantes
 (
  Codigo_Reporte int primary key,
