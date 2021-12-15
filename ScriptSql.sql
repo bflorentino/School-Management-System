@@ -54,3 +54,81 @@ Create table Maestros
  foreign key (IdArea) references AreasTecnicas (IdArea)
 )
 
+Create table MateriasMaestros
+(
+  IdAsignacion int primary key,
+  Cedula varchar(11) not null,
+  Codigo_Materia varchar(12) not null
+
+  foreign key(Cedula) references Maestros(Cedula),
+  foreign key(Codigo_Materia) references Materias(Codigo_Materia)
+)
+
+Create table MaestrosAulas
+(
+  IdAsignacion int,
+  Codigo_Seccion varchar(10)
+  primary key (IdAsignacion, Codigo_Seccion),
+  foreign key (IdAsignacion) references MateriasMaestros (IdAsignacion),
+  foreign key (Codigo_Seccion) references Secciones (Codigo_Seccion)
+)
+
+Create table EstudiantesCalificaciones
+(
+ Codigo_Calificacion int primary key,
+ Matricula varchar(10) not null,
+ Codigo_Materia varchar(12) not null,
+ Periodo int check (Periodo in (1, 2, 3, 4)) not null,
+
+ Foreign key (Matricula) references Estudiantes(Matricula),
+ Foreign key (Codigo_Materia) references Materias(Codigo_Materia)
+)
+
+Create table HistorialAsistencia
+( 
+  Codigo int primary key,
+  Matricula varchar(10) not null,
+  Codigo_Materia varchar(12) not null,
+  Fecha date not null,
+  Asistencia bit not null
+
+  foreign key (Matricula) references Estudiantes(Matricula),
+  foreign key (Codigo_Materia) references Materias(Codigo_Materia)
+)
+
+Create table ReportesAEstudiantes
+(
+ Codigo_Reporte int primary key,
+ Matricula varchar(10) not null,
+ Causa varchar(20) check (Causa in('Irrespeto', 'Irresponsabilidad', 'Agresión física')) not null,
+ CedulaMaestro varchar(11) not null,
+ Fecha date not null
+
+ Foreign key (Matricula) references Estudiantes(Matricula),
+ Foreign key (CedulaMaestro) references Maestros(Cedula)
+)
+
+Create table Excusas
+(
+ IdExcusa int primary key,
+ Matricula varchar(10) not null,
+ Fecha date not null,
+
+ Foreign key (Matricula) references Estudiantes(Matricula)
+)
+
+Create table Roles
+(
+ IdRol int primary key,
+ Nombre varchar(20) not null
+)
+
+Create table Usuarios
+(
+  NombreUsuario varchar(50) primary key,
+  PasswordHash varchar(max) not null,
+  fotoPerfil varchar(max),
+  IdRol int not null
+
+  foreign key(IdRol) references Roles(IdRol)
+)
