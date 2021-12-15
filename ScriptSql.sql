@@ -164,3 +164,25 @@ Create table Usuarios
 
   foreign key(IdRol) references Roles(IdRol)
 )
+
+
+-- INSERCIONES DE DATOS A LAS TABLAS
+
+-- Tabla roles
+Insert into Roles values(1, 'Administrador')
+Insert into Roles values(2, 'Maestro')
+Insert into Roles values(3, 'Estudiante')
+Insert into Roles values(4, 'Padre')
+
+
+-- Tabla Areas Técnicas
+Insert into AreasTecnicas values(1,'Desarrollo y administración de aplicaciones informaticas')
+Insert into AreasTecnicas values(2, 'Gestión administrativa y tributaria')
+Insert into AreasTecnicas values(3, 'Electrónica')
+Insert into AreasTecnicas values(4, 'Mecatrónica')
+Insert into AreasTecnicas values(5, 'Mecánica Automotriz')
+Insert into AreasTecnicas values(6, 'Enfermería')
+Insert into AreasTecnicas values(7, 'Electricidad')
+
+-- Creación de usuario administrador
+Insert into Usuarios values('Admin', '60fe74406e7f353ed979f350f2fbb6a2e8690a5fa7d1b0c32983d1d8b3f95f67', null, 1)
