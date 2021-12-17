@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 
 namespace BussinessLayer
 {
@@ -30,6 +31,16 @@ namespace BussinessLayer
                                                                                  .AllowAnyHeader()
                                                                                  .AllowAnyMethod()));
             services.AddControllers();
+
+            //var mapperConfig = new MapperConfiguration(m =>{
+                
+
+
+            //});
+            
+            //IMapper mapper = mapperConfig.CreateMapper();
+            //services.AddSingleton(mapper);
+            //services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
