@@ -6,7 +6,7 @@ namespace ServicesLayer.DTOs.BindingModel
 {
     public class NewSeccion
     {
-            public string Codigo_Seccion { get; set; }
+            public string CodigoSeccion { get; set; }
 
             public int IdArea { get; set; }
 
@@ -14,6 +14,6 @@ namespace ServicesLayer.DTOs.BindingModel
 
             public string Seccion { get; set; }
 
-            public int Aula { get; set; }
+            public int? Aula { get; set; }
         }
   }

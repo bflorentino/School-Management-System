@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+using ServicesLayer.Bussiness;
 
 namespace ServicesLayer.Controllers
 {
@@ -7,5 +9,16 @@ namespace ServicesLayer.Controllers
     [ApiController]
     public class AdminSeccionesController : ControllerBase
     {
+        private readonly ISeccionesCrud _seccionesCrud;
+        public AdminSeccionesController(ISeccionesCrud  seccionesCrud)
+        {
+            _seccionesCrud = seccionesCrud;
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddSeccion(DTOs.BindingModel.NewSeccion seccion)
+        {
+            return Ok(await _seccionesCrud.CrearSeccion(seccion));
+        }
     }
 }

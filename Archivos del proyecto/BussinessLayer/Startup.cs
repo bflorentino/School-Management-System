@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using ServicesLayer.Bussiness;
+using ServicesLayer;
 
 namespace BussinessLayer
 {
@@ -32,15 +34,16 @@ namespace BussinessLayer
                                                                                  .AllowAnyMethod()));
             services.AddControllers();
 
-            //var mapperConfig = new MapperConfiguration(m =>{
-                
+            services.AddScoped<ISeccionesCrud, SeccionesCrud >();
 
-
-            //});
-            
-            //IMapper mapper = mapperConfig.CreateMapper();
-            //services.AddSingleton(mapper);
-            //services.AddMvc();
+            // Configuration for automapper
+            var mapperConfig = new MapperConfiguration(m =>
+            {
+                m.AddProfile(new MappingProfile());
+            });
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
+            services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

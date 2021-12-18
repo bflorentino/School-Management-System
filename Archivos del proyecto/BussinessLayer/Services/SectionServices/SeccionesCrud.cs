@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using Data;
 using AutoMapper;
 using System.Threading.Tasks;
+using ServicesLayer.DTOs.BindingModel;
 
 namespace ServicesLayer.Bussiness
 {
-    public class SeccionesCrud
+    public class SeccionesCrud : ISeccionesCrud
     {
        School_Manage_SystemContext  dbContext = DBaseContext.GetContexto().Ctxto;
        private readonly IMapper map;
@@ -17,12 +18,12 @@ namespace ServicesLayer.Bussiness
             map = mapper;
         }
 
-        public async Task<bool> CrearSeccion(DTOs.BindingModel.NewSeccion seccion)
+        public async Task<bool> CrearSeccion(NewSeccion seccion)
         {          
                 Seccione section = map.Map<Seccione>(seccion);
                  await dbContext.AddAsync(section);
-                await dbContext.SaveChangesAsync();
-                return true;    
+                 await dbContext.SaveChangesAsync();
+                 return true;    
             }
         }
     }

@@ -14,7 +14,9 @@
 
   <ItemGroup>
     <Folder Include="DTOS\ViewModel\" />
-    <Folder Include="Neuvo\" />
+    <Folder Include="Services\NoticesServices\" />
+    <Folder Include="Services\SubjectServices\" />
+    <Folder Include="Services\TeachersServices\" />
   </ItemGroup>
 
 
