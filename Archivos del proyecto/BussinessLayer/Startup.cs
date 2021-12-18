@@ -13,6 +13,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using ServicesLayer.Bussiness;
 using ServicesLayer;
+using ServicesLayer.Services;
+using ServicesLayer.Services.StudentServices;
 
 namespace BussinessLayer
 {
@@ -35,6 +37,7 @@ namespace BussinessLayer
             services.AddControllers();
 
             services.AddScoped<ISeccionesCrud, SeccionesCrud >();
+            services.AddScoped<IEstudiantesCrud, EstudiantesCrud>();
 
             // Configuration for automapper
             var mapperConfig = new MapperConfiguration(m =>

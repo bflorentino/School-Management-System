@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System;
 using System.Threading.Tasks;
 using AutoMapper;
+using ServicesLayer.Services.StudentServices;
 
 namespace ServicesLayer.Bussiness
 {
-    public class EstudiantesCrud
+    public class EstudiantesCrud:IEstudiantesCrud
     {
         private readonly School_Manage_SystemContext dbContext = DBaseContext.GetContexto().Ctxto;
         private readonly IMapper map;

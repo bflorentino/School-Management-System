@@ -9,6 +9,7 @@ namespace ServicesLayer
         {
             CreateMap<DTOs.BindingModel.NewSeccion, Seccione>();
             CreateMap<DTOs.BindingModel.NewStudent, Estudiante>();
+            CreateMap<DTOs.BindingModel.NewStudent, Usuario>();
         }
     }
 }
