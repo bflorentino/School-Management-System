@@ -16,6 +16,7 @@ using ServicesLayer;
 using ServicesLayer.Services;
 using ServicesLayer.Services.StudentServices;
 using ServicesLayer.Services.TeachersServices;
+using ServicesLayer.Services.SubjectServices;
 
 namespace BussinessLayer
 {
@@ -40,6 +41,7 @@ namespace BussinessLayer
             services.AddScoped<ISeccionesCrud, SeccionesCrud >();
             services.AddScoped<IEstudiantesCrud, EstudiantesCrud>();
             services.AddScoped<IMaestrosCrud, MaestrosCrud>();
+            services.AddScoped<IMateriasCrud, MateriasCrud>();
 
             // Configuration for automapper
             var mapperConfig = new MapperConfiguration(m =>
