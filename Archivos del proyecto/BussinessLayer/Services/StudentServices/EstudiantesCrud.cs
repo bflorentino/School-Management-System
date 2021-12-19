@@ -5,6 +5,7 @@ using System;
 using System.Threading.Tasks;
 using AutoMapper;
 using ServicesLayer.Services.StudentServices;
+using ServicesLayer.Services;
 
 namespace ServicesLayer.Bussiness
 {
@@ -18,10 +19,11 @@ namespace ServicesLayer.Bussiness
             map = mapper;
         }
 
-        public  async Task<bool> AddNewStudent(DTOs.BindingModel.NewStudent est)
+        public  async Task<ServerResponse<string>>AddNewStudent(DTOs.BindingModel.NewStudent est)
         {
-            // Agregar un nuevo estudiante
+            ServerResponse<string> serverResponse = new ServerResponse<string>();
 
+            // Agregar un nuevo estudiante
             Estudiante estudiante = map.Map<Estudiante>(est);
 
                await dbContext.AddAsync(estudiante);
@@ -34,8 +36,11 @@ namespace ServicesLayer.Bussiness
                     FotoPerfil = null
                 });
 
-                await dbContext.SaveChangesAsync();
-                return true;
+                 await dbContext.SaveChangesAsync();
+                 serverResponse.Data = "";
+                 serverResponse.Message = "Estudiante registrado exitosamente";
+
+                return serverResponse;
             }
          }
     }

@@ -5,6 +5,7 @@ using Data;
 using AutoMapper;
 using System.Threading.Tasks;
 using ServicesLayer.DTOs.BindingModel;
+using ServicesLayer.Services;
 
 namespace ServicesLayer.Bussiness
 {
@@ -18,12 +19,16 @@ namespace ServicesLayer.Bussiness
             map = mapper;
         }
 
-        public async Task<bool> CrearSeccion(NewSeccion seccion)
-        {          
-                Seccione section = map.Map<Seccione>(seccion);
-                 await dbContext.AddAsync(section);
-                 await dbContext.SaveChangesAsync();
-                 return true;    
-            }
+        public async Task<ServerResponse<string>> CrearSeccion(NewSeccion seccion)
+        {
+            ServerResponse<string> serverResponse = new ServerResponse<string>();
+            Seccione section = map.Map<Seccione>(seccion);
+            await dbContext.AddAsync(section);
+            await dbContext.SaveChangesAsync();
+            serverResponse.Data = "";
+            serverResponse.Message = "Seccion registrado exitosamente";
+
+            return serverResponse;
+           }
         }
     }

@@ -3,6 +3,7 @@ using AutoMapper;
 using ServicesLayer.Bussiness;
 using System.Threading.Tasks;
 using ServicesLayer.DTOS.BindingModel;
+using ServicesLayer.Services;
 
 namespace ServicesLayer.Services.TeachersServices
 {
@@ -16,10 +17,11 @@ namespace ServicesLayer.Services.TeachersServices
             map = mapper;
         }
 
-        public async Task<bool>AddTeacher(NewMaestro maestro)
+        public async Task<ServerResponse<string>>AddTeacher(NewMaestro maestro)
         {
-            Maestro mstro = map.Map<Maestro>(maestro);
+            ServerResponse<string> serverResponse = new ServerResponse<string>();
 
+            Maestro mstro = map.Map<Maestro>(maestro);
             await dbContext.AddAsync(mstro);
 
             await dbContext.Usuarios.AddAsync(new Usuario
@@ -31,8 +33,10 @@ namespace ServicesLayer.Services.TeachersServices
             });
 
             await dbContext.SaveChangesAsync();
+            serverResponse.Data = "";
+            serverResponse.Message = "Maestro registrado exitosamente";
 
-            return true;
+            return serverResponse;
         }
     }
 }

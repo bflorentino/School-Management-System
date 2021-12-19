@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using ServicesLayer.DTOS.BindingModel;
 using ServicesLayer.Bussiness;
+using ServicesLayer;
 
 namespace ServicesLayer.Services.NoticesServices
 {
@@ -19,12 +20,17 @@ namespace ServicesLayer.Services.NoticesServices
             _mapper = mapper;
         }
 
-        public async Task<bool>AddNewNotice(NewAdminNotices notice)
+        public async Task<ServerResponse<string>>AddNewNotice(NewAdminNotices notice)
         {
+            ServerResponse<string>serverResponse = new ServerResponse<string>();
+
             AvisosAdministración aviso = _mapper.Map<AvisosAdministración>(notice);
             await dbContext.AddAsync(aviso);
             await dbContext.SaveChangesAsync();
-            return true;
+            serverResponse.Data = "";
+            serverResponse.Message = "Aviso registrado exitosamente";
+
+            return serverResponse;
         }
     }
 }

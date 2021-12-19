@@ -3,6 +3,7 @@ using Data;
 using System.Threading.Tasks;
 using ServicesLayer.Bussiness;
 using ServicesLayer.DTOS.BindingModel;
+using ServicesLayer;
 using AutoMapper;
 
 namespace ServicesLayer.Services.SubjectServices
@@ -18,13 +19,18 @@ namespace ServicesLayer.Services.SubjectServices
             _mapper = mapper;
         }
 
-        public async Task<bool>AddSubject(NewSubject materia)
+        public async Task<ServerResponse<string>>AddSubject(NewSubject materia)
         {
+            ServerResponse<string> serverResponse = new ServerResponse<string>();
+
             Materia mtria = _mapper.Map<Materia>(materia);
+
             await dbContext.AddAsync(mtria);
             await dbContext.SaveChangesAsync();
+            serverResponse.Data = "";
+            serverResponse.Message = "Materia registrada exitosamente";
 
-            return true;
+            return serverResponse;
         }
     }
 }

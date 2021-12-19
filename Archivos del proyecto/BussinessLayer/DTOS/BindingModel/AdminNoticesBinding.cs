@@ -14,7 +14,7 @@ namespace ServicesLayer.DTOS.BindingModel
         [Required(ErrorMessage ="Se requiere seleccionar a quien va dirigido el aviso")]
         public string DirigidoA { get; set; }
 
-        public DateTime Fecha { get; set; }
+        public DateTime Fecha { get; set; } = DateTime.Now;
         
         [Required(ErrorMessage ="Se requiere la fecha hasta la que tendrá vigencia el aviso")]
         public DateTime VigenciaHasta { get; set; } 
