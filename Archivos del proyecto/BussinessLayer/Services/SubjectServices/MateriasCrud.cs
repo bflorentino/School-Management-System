@@ -22,14 +22,20 @@ namespace ServicesLayer.Services.SubjectServices
         public async Task<ServerResponse<string>>AddSubject(NewSubject materia)
         {
             ServerResponse<string> serverResponse = new ServerResponse<string>();
-
             Materia mtria = _mapper.Map<Materia>(materia);
 
-            await dbContext.AddAsync(mtria);
-            await dbContext.SaveChangesAsync();
-            serverResponse.Data = "";
-            serverResponse.Message = "Materia registrada exitosamente";
-
+            try
+            {
+                await dbContext.AddAsync(mtria);
+                await dbContext.SaveChangesAsync();
+                serverResponse.Data = "";
+                serverResponse.Message = "Materia registrada exitosamente";
+            }
+            catch (Exception ex)
+            {
+                serverResponse.Message = ex.Message;
+                serverResponse.Success = false;
+            }
             return serverResponse;
         }
     }

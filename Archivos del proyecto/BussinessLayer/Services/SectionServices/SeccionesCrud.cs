@@ -23,11 +23,19 @@ namespace ServicesLayer.Bussiness
         {
             ServerResponse<string> serverResponse = new ServerResponse<string>();
             Seccione section = map.Map<Seccione>(seccion);
-            await dbContext.AddAsync(section);
-            await dbContext.SaveChangesAsync();
-            serverResponse.Data = "";
-            serverResponse.Message = "Seccion registrado exitosamente";
 
+            try
+            {
+                await dbContext.AddAsync(section);
+                await dbContext.SaveChangesAsync();
+                serverResponse.Data = "";
+                serverResponse.Message = "Seccion registrado exitosamente";
+            }
+            catch (Exception ex)
+            {
+                serverResponse.Message = ex.Message;
+                serverResponse.Success = false;
+            }
             return serverResponse;
            }
         }

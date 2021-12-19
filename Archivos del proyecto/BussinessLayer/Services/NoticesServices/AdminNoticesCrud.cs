@@ -23,12 +23,19 @@ namespace ServicesLayer.Services.NoticesServices
         public async Task<ServerResponse<string>>AddNewNotice(NewAdminNotices notice)
         {
             ServerResponse<string>serverResponse = new ServerResponse<string>();
-
             AvisosAdministración aviso = _mapper.Map<AvisosAdministración>(notice);
-            await dbContext.AddAsync(aviso);
-            await dbContext.SaveChangesAsync();
-            serverResponse.Data = "";
-            serverResponse.Message = "Aviso registrado exitosamente";
+            try
+            {
+                await dbContext.AddAsync(aviso);
+                await dbContext.SaveChangesAsync();
+                serverResponse.Data = "";
+                serverResponse.Message = "Aviso registrado exitosamente";
+            }
+            catch (Exception ex)
+            {
+                serverResponse.Message = ex.Message;
+                serverResponse.Success = false;
+            }
 
             return serverResponse;
         }

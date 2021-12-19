@@ -22,12 +22,12 @@ namespace ServicesLayer.Bussiness
         public  async Task<ServerResponse<string>>AddNewStudent(DTOs.BindingModel.NewStudent est)
         {
             ServerResponse<string> serverResponse = new ServerResponse<string>();
-
-            // Agregar un nuevo estudiante
             Estudiante estudiante = map.Map<Estudiante>(est);
 
+            try
+            {
+            // Agregar un nuevo estudiante
                await dbContext.AddAsync(estudiante);
-
                await dbContext.Usuarios.AddAsync(new Usuario
                 {
                     NombreUsuario = est.NombreUsuario,
@@ -35,11 +35,15 @@ namespace ServicesLayer.Bussiness
                     IdRol = 3,
                     FotoPerfil = null
                 });
-
                  await dbContext.SaveChangesAsync();
                  serverResponse.Data = "";
                  serverResponse.Message = "Estudiante registrado exitosamente";
-
+            }
+            catch (Exception ex)
+            {
+                serverResponse.Success = false;
+                serverResponse.Message = ex.Message;
+            }
                 return serverResponse;
             }
          }

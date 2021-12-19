@@ -1,4 +1,5 @@
-﻿using Data;
+﻿using System;
+using Data;
 using AutoMapper;
 using ServicesLayer.Bussiness;
 using System.Threading.Tasks;
@@ -20,21 +21,27 @@ namespace ServicesLayer.Services.TeachersServices
         public async Task<ServerResponse<string>>AddTeacher(NewMaestro maestro)
         {
             ServerResponse<string> serverResponse = new ServerResponse<string>();
-
             Maestro mstro = map.Map<Maestro>(maestro);
-            await dbContext.AddAsync(mstro);
-
-            await dbContext.Usuarios.AddAsync(new Usuario
+         
+            try
             {
-                NombreUsuario = maestro.NombreUsuario,
-                PasswordHash = PasswordEncrypter.Compute256Hash(maestro.passwordSalt),
-                IdRol = 2,
-                FotoPerfil = null
-            });
-
-            await dbContext.SaveChangesAsync();
-            serverResponse.Data = "";
-            serverResponse.Message = "Maestro registrado exitosamente";
+                await dbContext.AddAsync(mstro);
+                await dbContext.Usuarios.AddAsync(new Usuario
+                {
+                    NombreUsuario = maestro.NombreUsuario,
+                    PasswordHash = PasswordEncrypter.Compute256Hash(maestro.passwordSalt),
+                    IdRol = 2,
+                    FotoPerfil = null
+                });
+                await dbContext.SaveChangesAsync();
+                serverResponse.Data = "";
+                serverResponse.Message = "Maestro registrado exitosamente";
+            }
+            catch(Exception ex)
+            {
+                serverResponse.Message = ex.Message;
+                serverResponse.Success = false;
+            }
 
             return serverResponse;
         }
