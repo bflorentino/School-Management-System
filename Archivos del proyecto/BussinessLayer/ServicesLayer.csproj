@@ -16,7 +16,6 @@
     <Folder Include="DTOS\ViewModel\" />
     <Folder Include="Services\NoticesServices\" />
     <Folder Include="Services\SubjectServices\" />
-    <Folder Include="Services\TeachersServices\" />
   </ItemGroup>
 
 

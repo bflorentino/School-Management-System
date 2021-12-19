@@ -15,6 +15,7 @@ using ServicesLayer.Bussiness;
 using ServicesLayer;
 using ServicesLayer.Services;
 using ServicesLayer.Services.StudentServices;
+using ServicesLayer.Services.TeachersServices;
 
 namespace BussinessLayer
 {
@@ -38,12 +39,14 @@ namespace BussinessLayer
 
             services.AddScoped<ISeccionesCrud, SeccionesCrud >();
             services.AddScoped<IEstudiantesCrud, EstudiantesCrud>();
+            services.AddScoped<IMaestrosCrud, MaestrosCrud>();
 
             // Configuration for automapper
             var mapperConfig = new MapperConfiguration(m =>
             {
                 m.AddProfile(new MappingProfile());
             });
+
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
             services.AddMvc();

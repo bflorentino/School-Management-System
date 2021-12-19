@@ -15,5 +15,7 @@ namespace ServicesLayer.DTOs.BindingModel
             public string Seccion { get; set; }
 
             public int? Aula { get; set; }
-        }
+
+           public bool Estatus { get; set; }
+    }
   }

@@ -33,7 +33,9 @@ namespace ServicesLayer.DTOs.BindingModel
 
         public int IDArea { get; set; }
 
-        public string Seccion { get; set; }
+        public string CodigoSeccion { get; set; }
+
+        public bool Estatus { get; set; }
 
         public string NombreUsuario { get; set; }
 
