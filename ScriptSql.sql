@@ -13,6 +13,7 @@ IdArea int not null,
 Nivel varchar(5) check (Nivel in('4to', '5to', '6to')), 
 Seccion char not null,
 Aula int unique,
+Estatus bit not null,
 Foreign key(IdArea) references AreasTecnicas(IdArea)
 )
 
@@ -35,11 +36,14 @@ Create table Estudiantes
  Direccion varchar(Max) not null,
  NombrePadre varchar(50) not null,
  NombreMadre varchar(50) not null,
- CedulaPadre varchar(11) not null,
- CedulaMadre varchar(11) not null,
+ CedulaPadre varchar(11) unique not null ,
+ CedulaMadre varchar(11) unique not null,
  Foto2x2 varchar(max) not null,
  IdArea int not  null,
- Seccion varchar(10) not null,
+ Codigo_Seccion varchar(10) not null,
+ Estatus bit not null
+
+ Foreign key(Codigo_Seccion) references Secciones (Codigo_Seccion)
 )
 
 Create table Maestros
@@ -49,7 +53,8 @@ Create table Maestros
  Apellido varchar(30) not null,
  Telefono varchar(12) check (len(Telefono)=12) not null,
  CorreoElectronico varchar(max),
- IdArea int
+ IdArea int,
+ Estatus bit not null
 
  foreign key (IdArea) references AreasTecnicas (IdArea)
 )
