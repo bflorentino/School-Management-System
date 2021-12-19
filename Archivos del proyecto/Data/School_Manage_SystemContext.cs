@@ -137,6 +137,12 @@ namespace Data
                 entity.HasKey(e => e.Matricula)
                     .HasName("PK__Estudian__0FB9FB4E3BE4E93E");
 
+                entity.HasIndex(e => e.CedulaMadre, "UQ__Estudian__1B098D364B9D68F1")
+                    .IsUnique();
+
+                entity.HasIndex(e => e.CedulaPadre, "UQ__Estudian__5F0FD337C99B4D63")
+                    .IsUnique();
+
                 entity.Property(e => e.Matricula)
                     .HasMaxLength(10)
                     .IsUnicode(false);
@@ -155,6 +161,12 @@ namespace Data
                     .IsRequired()
                     .HasMaxLength(11)
                     .IsUnicode(false);
+
+                entity.Property(e => e.CodigoSeccion)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("Codigo_Seccion");
 
                 entity.Property(e => e.CorreoElectronico).IsUnicode(false);
 
@@ -183,15 +195,16 @@ namespace Data
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Seccion)
-                    .IsRequired()
-                    .HasMaxLength(10)
-                    .IsUnicode(false);
-
                 entity.Property(e => e.Telefono)
                     .IsRequired()
                     .HasMaxLength(12)
                     .IsUnicode(false);
+
+                entity.HasOne(d => d.CodigoSeccionNavigation)
+                    .WithMany(p => p.Estudiantes)
+                    .HasForeignKey(d => d.CodigoSeccion)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK__Estudiant__Codig__02084FDA");
             });
 
             modelBuilder.Entity<EstudiantesCalificacione>(entity =>

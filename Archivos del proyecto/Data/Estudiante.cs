@@ -28,8 +28,10 @@ namespace Data
         public string CedulaMadre { get; set; }
         public string Foto2x2 { get; set; }
         public int IdArea { get; set; }
-        public string Seccion { get; set; }
+        public string CodigoSeccion { get; set; }
+        public bool Estatus { get; set; }
 
+        public virtual Seccione CodigoSeccionNavigation { get; set; }
         public virtual ICollection<EstudiantesCalificacione> EstudiantesCalificaciones { get; set; }
         public virtual ICollection<Excusa> Excusas { get; set; }
         public virtual ICollection<HistorialAsistencium> HistorialAsistencia { get; set; }

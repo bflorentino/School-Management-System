@@ -20,6 +20,7 @@ namespace Data
         public string Telefono { get; set; }
         public string CorreoElectronico { get; set; }
         public int? IdArea { get; set; }
+        public bool Estatus { get; set; }
 
         public virtual AreasTecnica IdAreaNavigation { get; set; }
         public virtual ICollection<AvisosMaestro> AvisosMaestros { get; set; }
