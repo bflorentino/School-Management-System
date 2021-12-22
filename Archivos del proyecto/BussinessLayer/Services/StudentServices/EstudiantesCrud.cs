@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using ServicesLayer.Services.StudentServices;
 using ServicesLayer.Services;
+using ServicesLayer.DTOS.ViewModel;
+using Microsoft.EntityFrameworkCore;
 
 namespace ServicesLayer.Bussiness
 {
@@ -45,6 +47,30 @@ namespace ServicesLayer.Bussiness
                 serverResponse.Message = ex.Message;
             }
                 return serverResponse;
+        }
+
+        public async Task<ServerResponse<List<StudentsViewModel>>>GetStudentsBySection(string section)
+        {
+            ServerResponse<List<StudentsViewModel>> serverResponse = new ServerResponse<List<StudentsViewModel>>();
+
+            try
+            {
+                var estudiantes = await (from estudiante in dbContext.Estudiantes
+                                      where estudiante.CodigoSeccion == section
+                                      select estudiante).ToListAsync();
+
+                foreach(var estudiante in estudiantes)
+                {
+                    StudentsViewModel est= map.Map<StudentsViewModel>(estudiante);
+                    serverResponse.Data.Add(est);
+                }
             }
-         }
+            catch (Exception)
+            {
+                serverResponse.Message = "Hubo un error al obtener los datos";
+                serverResponse.Success = false;
+            }
+            return serverResponse;
+        }
     }
+}

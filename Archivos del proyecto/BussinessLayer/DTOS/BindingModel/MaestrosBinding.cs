@@ -29,6 +29,5 @@ namespace ServicesLayer.DTOS.BindingModel
         
         [Required]
         public string passwordSalt { get; set; }
-
     }
 }

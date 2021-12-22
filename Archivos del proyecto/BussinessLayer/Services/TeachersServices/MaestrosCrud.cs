@@ -4,7 +4,11 @@ using AutoMapper;
 using ServicesLayer.Bussiness;
 using System.Threading.Tasks;
 using ServicesLayer.DTOS.BindingModel;
+using ServicesLayer.DTOS.ViewModel;
 using ServicesLayer.Services;
+using System.Linq;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace ServicesLayer.Services.TeachersServices
 {
@@ -39,10 +43,58 @@ namespace ServicesLayer.Services.TeachersServices
             }
             catch(Exception ex)
             {
-                serverResponse.Message = ex.Message;
+                serverResponse.Message = "Hubo un error al intentar ingresar el nuevo registro";
                 serverResponse.Success = false;
             }
 
+            return serverResponse;
+        }
+
+        public async Task <ServerResponse<List<MaestrosViewModel>>> GetAllTeachers()
+        {
+            ServerResponse<List<MaestrosViewModel>> serverResponse= new ServerResponse<List<MaestrosViewModel>>();
+
+            try
+            {
+                var teachers = await (from teacher in dbContext.Maestros select teacher).ToListAsync();
+              
+                foreach (var teacher in teachers)
+                {
+                    MaestrosViewModel tch = map.Map<MaestrosViewModel>(teacher);
+                    serverResponse.Data.Add(tch);
+                }
+            }
+            catch (Exception)
+            {
+                serverResponse.Message = "Hubo un error al obtener los datos";
+                serverResponse.Success = false;
+            }
+            return serverResponse;
+        }
+
+        public async Task<ServerResponse<List<MaestrosViewModel>>>GetTeachersBySubject(string codigo)
+        {
+            ServerResponse<List<MaestrosViewModel>> serverResponse = new ServerResponse<List<MaestrosViewModel>>();
+
+            try
+            {
+                var teachers = await (from teacher in dbContext.Maestros 
+                                               join materia in dbContext.MateriasMaestros
+                                               on teacher.Cedula equals materia.Cedula
+                                               where materia.CodigoMateria == codigo
+                                               select teacher).ToListAsync();
+
+                foreach (var teacher in teachers)
+                {
+                    MaestrosViewModel tch = map.Map<MaestrosViewModel>(teacher);
+                    serverResponse.Data.Add(tch);
+                }
+            }
+            catch (Exception)
+            {
+                serverResponse.Message = "Hubo un error al obtener los datos";
+                serverResponse.Success = false;
+            }
             return serverResponse;
         }
     }

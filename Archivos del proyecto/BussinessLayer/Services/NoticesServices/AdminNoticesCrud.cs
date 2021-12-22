@@ -33,7 +33,7 @@ namespace ServicesLayer.Services.NoticesServices
             }
             catch (Exception ex)
             {
-                serverResponse.Message = ex.Message;
+                serverResponse.Message = "Hubo un error al intentar ingresar el nuevo registro";
                 serverResponse.Success = false;
             }
 
