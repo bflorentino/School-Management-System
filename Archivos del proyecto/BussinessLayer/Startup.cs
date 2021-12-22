@@ -34,7 +34,8 @@ namespace BussinessLayer
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors(options => options.AddPolicy("AllowWebApp", builder =>
-                                                                                 builder.AllowAnyOrigin()   
+                                                                                 builder
+                                                                                  .AllowAnyOrigin()   
                                                                                  .AllowAnyHeader()
                                                                                  .AllowAnyMethod()));
             services.AddControllers();

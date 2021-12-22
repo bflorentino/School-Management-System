@@ -11,16 +11,22 @@ namespace ServicesLayer.Controllers
     [ApiController]
     public class AdminEstudiantesController : ControllerBase
     {
-        private readonly  IEstudiantesCrud _estudiantesCrud;
+        private readonly IEstudiantesCrud _estudiantesCrud;
         public AdminEstudiantesController(IEstudiantesCrud estudiantesCrud)
         {
             _estudiantesCrud = estudiantesCrud;
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNewStudent(NewStudent student)
+        public async Task<IActionResult> Post(NewStudent student)
         {
             return Ok(await _estudiantesCrud.AddNewStudent(student));
+        }
+
+        [HttpGet("{codigosec}")]
+        public async Task<IActionResult> Get(string codigosec)
+        {
+            return Ok(await _estudiantesCrud.GetStudentsBySection(codigosec));
         }
     }
 }

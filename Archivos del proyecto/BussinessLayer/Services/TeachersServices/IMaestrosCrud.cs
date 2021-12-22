@@ -5,12 +5,12 @@ using System.Collections.Generic;
 using ServicesLayer.Services;
 using ServicesLayer;
 
-
 namespace ServicesLayer.Services.TeachersServices
 {
     public interface IMaestrosCrud
     {
-        public Task<ServerResponse<string>> AddTeacher(NewMaestro maestro);
-        public Task<ServerResponse<List<MaestrosViewModel>>>GetAllTeachers()
+         Task<ServerResponse<string>> AddTeacher(NewMaestro maestro);
+         Task<ServerResponse<List<MaestrosViewModel>>> GetAllTeachers();
+         Task<ServerResponse<List<MaestrosViewModel>>> GetTeachersBySubject(string codigo);
     }
 }

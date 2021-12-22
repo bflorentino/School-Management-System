@@ -59,11 +59,8 @@ namespace ServicesLayer.Bussiness
                                       where estudiante.CodigoSeccion == section
                                       select estudiante).ToListAsync();
 
-                foreach(var estudiante in estudiantes)
-                {
-                    StudentsViewModel est= map.Map<StudentsViewModel>(estudiante);
-                    serverResponse.Data.Add(est);
-                }
+                serverResponse.Data =estudiantes.Select(s => map.Map<StudentsViewModel>(s)).ToList();
+
             }
             catch (Exception)
             {
