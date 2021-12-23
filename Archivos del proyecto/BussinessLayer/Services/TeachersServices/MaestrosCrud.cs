@@ -89,5 +89,23 @@ namespace ServicesLayer.Services.TeachersServices
             }
             return serverResponse;
         }
+
+        public async Task<ServerResponse<string>> AddSubjectToTeacher(MateriasMaestrosBinding materia)
+        {
+           ServerResponse<string> serverResponse = new ServerResponse<string>();
+            try
+            {
+                MateriasMaestro materiaM = map.Map<MateriasMaestro>(materia);
+                await dbContext.MateriasMaestros.AddAsync(materiaM);
+                serverResponse.Message = "Registro agregado exitosamente";
+                await dbContext.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                serverResponse.Success=false;
+                serverResponse.Message = ex.Message;
+            }
+            return serverResponse;
+        }
     }
 }

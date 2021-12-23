@@ -34,5 +34,11 @@ namespace ServicesLayer.Controllers
         {
             return Ok(await _maestrosCrud.GetTeachersBySubject(codMateria));
         }
+
+        [HttpPost("materiaMaestro")]
+        public async Task<IActionResult> AddMateriaMaestro(MateriasMaestrosBinding materia)
+        {
+            return Ok(await _maestrosCrud.AddSubjectToTeacher(materia));
+        }
     }
 }

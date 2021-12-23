@@ -12,5 +12,6 @@ namespace ServicesLayer.Services.TeachersServices
          Task<ServerResponse<string>> AddTeacher(NewMaestro maestro);
          Task<ServerResponse<List<MaestrosViewModel>>> GetAllTeachers();
          Task<ServerResponse<List<MaestrosViewModel>>> GetTeachersBySubject(string codigo);
+         Task<ServerResponse<string>> AddSubjectToTeacher(MateriasMaestrosBinding materia);
     }
 }
