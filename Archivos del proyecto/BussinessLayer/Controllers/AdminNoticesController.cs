@@ -21,5 +21,11 @@ namespace ServicesLayer.Controllers
         {
             return Ok(await _adminNoticesCrud.AddNewNotice(notice));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            return Ok(await _adminNoticesCrud.GetAllNotices());
+        }
     }
 }

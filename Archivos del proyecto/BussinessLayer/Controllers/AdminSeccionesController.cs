@@ -20,5 +20,11 @@ namespace ServicesLayer.Controllers
         {
             return Ok(await _seccionesCrud.CrearSeccion(seccion));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            return Ok(await _seccionesCrud.GetAllSections());
+        }
     }
 }

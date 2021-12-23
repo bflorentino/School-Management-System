@@ -13,12 +13,13 @@ namespace ServicesLayer.Bussiness
 {
     public class EstudiantesCrud:IEstudiantesCrud
     {
-        private readonly School_Manage_SystemContext dbContext = DBaseContext.GetContexto().Ctxto;
+        private readonly School_Manage_SystemContext dbContext;
         private readonly IMapper map;
 
-        public EstudiantesCrud(IMapper mapper)
+        public EstudiantesCrud(IMapper mapper, School_Manage_SystemContext dbCont)
         {
             map = mapper;
+            dbContext = dbCont;
         }
 
         public  async Task<ServerResponse<string>>AddNewStudent(DTOs.BindingModel.NewStudent est)
@@ -61,6 +62,24 @@ namespace ServicesLayer.Bussiness
 
                 serverResponse.Data =estudiantes.Select(s => map.Map<StudentsViewModel>(s)).ToList();
 
+            }
+            catch (Exception)
+            {
+                serverResponse.Message = "Hubo un error al obtener los datos";
+                serverResponse.Success = false;
+            }
+            return serverResponse;
+        }
+
+        public async Task<ServerResponse<List<ReportesEstViewModel>>>GetReportesByStudent(string matricula)
+        {
+            ServerResponse<List<ReportesEstViewModel>> serverResponse = new ServerResponse<List<ReportesEstViewModel>>();
+            try
+            {
+                var reportes = await dbContext.ReportesAestudiantes.Where(n => n.Matricula == matricula )
+                                                                                            .Include(n => n.CedulaMaestroNavigation).ToListAsync();
+
+                serverResponse.Data = reportes.Select(s => map.Map<ReportesEstViewModel>(s)).ToList();
             }
             catch (Exception)
             {

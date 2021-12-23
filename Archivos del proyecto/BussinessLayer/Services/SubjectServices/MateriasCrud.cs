@@ -10,13 +10,13 @@ namespace ServicesLayer.Services.SubjectServices
 {
     public class MateriasCrud:IMateriasCrud
     {
-
-        private readonly School_Manage_SystemContext dbContext = DBaseContext.GetContexto().Ctxto;
+        private readonly School_Manage_SystemContext dbContext;
         private readonly IMapper _mapper;
 
-        public MateriasCrud(IMapper mapper)
+        public MateriasCrud(IMapper mapper, School_Manage_SystemContext dbCont)
         {
             _mapper = mapper;
+            dbContext = dbCont;
         }
 
         public async Task<ServerResponse<string>>AddSubject(NewSubject materia)

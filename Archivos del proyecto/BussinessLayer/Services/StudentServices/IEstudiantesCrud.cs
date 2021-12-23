@@ -11,6 +11,6 @@ namespace ServicesLayer.Services.StudentServices
     {
         Task<ServerResponse<string>> AddNewStudent(NewStudent student);
         Task<ServerResponse<List<StudentsViewModel>>>GetStudentsBySection(string seccion);
-
+        Task<ServerResponse<List<ReportesEstViewModel>>> GetReportesByStudent(string matricula);
     }
 }

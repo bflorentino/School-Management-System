@@ -14,12 +14,13 @@ namespace ServicesLayer.Services.TeachersServices
 {
     public class MaestrosCrud: IMaestrosCrud
     {
-        private readonly School_Manage_SystemContext dbContext = DBaseContext.GetContexto().Ctxto;
+        private readonly School_Manage_SystemContext dbContext;
         private readonly IMapper map;
 
-        public MaestrosCrud (IMapper mapper)
+        public MaestrosCrud (IMapper mapper, School_Manage_SystemContext dbCont)
         {
             map = mapper;
+            dbContext = dbCont;
         }
 
         public async Task<ServerResponse<string>>AddTeacher(NewMaestro maestro)
@@ -57,12 +58,7 @@ namespace ServicesLayer.Services.TeachersServices
             try
             {
                 var teachers = await (from teacher in dbContext.Maestros select teacher).ToListAsync();
-              
-                foreach (var teacher in teachers)
-                {
-                    MaestrosViewModel tch = map.Map<MaestrosViewModel>(teacher);
-                    serverResponse.Data.Add(tch);
-                }
+                serverResponse.Data = teachers.Select(s => map.Map<MaestrosViewModel>(s)).ToList();
             }
             catch (Exception)
             {
@@ -84,11 +80,7 @@ namespace ServicesLayer.Services.TeachersServices
                                                where materia.CodigoMateria == codigo
                                                select teacher).ToListAsync();
 
-                foreach (var teacher in teachers)
-                {
-                    MaestrosViewModel tch = map.Map<MaestrosViewModel>(teacher);
-                    serverResponse.Data.Add(tch);
-                }
+                serverResponse.Data = teachers.Select(s => map.Map<MaestrosViewModel>(s)).ToList();
             }
             catch (Exception)
             {

@@ -18,9 +18,21 @@ namespace ServicesLayer.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult>AddTeacher(NewMaestro maestro)
+        public async Task<IActionResult> AddTeacher(NewMaestro maestro)
         {
             return Ok(await _maestrosCrud.AddTeacher(maestro));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            return Ok(await _maestrosCrud.GetAllTeachers());
+        }
+
+        [HttpGet("{codMateria}")]
+        public async Task<IActionResult> Get(string codMateria)
+        {
+            return Ok(await _maestrosCrud.GetTeachersBySubject(codMateria));
         }
     }
 }

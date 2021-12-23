@@ -28,5 +28,11 @@ namespace ServicesLayer.Controllers
         {
             return Ok(await _estudiantesCrud.GetStudentsBySection(codigosec));
         }
+
+        [HttpGet("reports/{matricula}")]    
+        public async Task<IActionResult> GetReportes(string matricula)
+        {
+            return Ok(await _estudiantesCrud.GetReportesByStudent(matricula));
+        }
     }
 }

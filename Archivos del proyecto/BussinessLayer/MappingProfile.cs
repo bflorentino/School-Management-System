@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Data;
+using System.Collections.Generic;
 
 namespace ServicesLayer
 {
@@ -21,6 +22,9 @@ namespace ServicesLayer
             
             CreateMap<DTOS.BindingModel.NewAdminNotices, AvisosAdministración>();
             CreateMap<AvisosAdministración, DTOS.ViewModel.AdminNoticesViewModel>();
+
+            CreateMap<ReportesAestudiante, DTOS.ViewModel.ReportesEstViewModel>()
+                            .ForMember(r => r.Nombre, o => o.MapFrom(s => s.CedulaMaestroNavigation.Nombre));
         }
     }
 }

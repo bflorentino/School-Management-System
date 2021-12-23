@@ -14,12 +14,13 @@ namespace ServicesLayer.Services.NoticesServices
 {
     public class AdminNoticesCrud: IAdminNoticesCrud
     {
-        private readonly School_Manage_SystemContext dbContext = DBaseContext.GetContexto().Ctxto;
+        private readonly School_Manage_SystemContext dbContext;
         private readonly IMapper _mapper;
 
-        public AdminNoticesCrud(IMapper mapper)
+        public AdminNoticesCrud(IMapper mapper, School_Manage_SystemContext dbCont)
         {
             _mapper = mapper;
+            dbContext = dbCont;
         }
 
         public async Task<ServerResponse<string>>AddNewNotice(NewAdminNotices notice)
@@ -51,11 +52,7 @@ namespace ServicesLayer.Services.NoticesServices
                 var notices = await(from notice in dbContext.AvisosAdministracións
                                    select notice).ToListAsync();
 
-                foreach (var notice in notices)
-                {
-                    AdminNoticesViewModel ntc = _mapper.Map<AdminNoticesViewModel>(notice);
-                    serverResponse.Data.Add(ntc);
-                }
+                serverResponse.Data = notices.Select(s => _mapper.Map<AdminNoticesViewModel>(s)).ToList();
             }
             catch (Exception ex)
             {

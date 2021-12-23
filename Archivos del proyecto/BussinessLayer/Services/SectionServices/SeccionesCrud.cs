@@ -13,12 +13,13 @@ namespace ServicesLayer.Bussiness
 {
     public class SeccionesCrud : ISeccionesCrud
     {
-        School_Manage_SystemContext dbContext = DBaseContext.GetContexto().Ctxto;
+        School_Manage_SystemContext dbContext;
         private readonly IMapper map;
 
-        public SeccionesCrud(IMapper mapper)
+        public SeccionesCrud(IMapper mapper, School_Manage_SystemContext dbCont)
         {
             map = mapper;
+            dbContext = dbCont;
         }
 
         public async Task<ServerResponse<string>> CrearSeccion(NewSeccion seccion)
