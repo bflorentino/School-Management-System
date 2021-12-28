@@ -18,7 +18,12 @@ using ServicesLayer.Services.StudentServices;
 using ServicesLayer.Services.TeachersServices;
 using ServicesLayer.Services.SubjectServices;
 using ServicesLayer.Services.NoticesServices;
+using ServicesLayer.Services.UsersServices;
+using ServicesLayer.DTOS.BindingModel;
 using Data;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace BussinessLayer
 {
@@ -37,16 +42,40 @@ namespace BussinessLayer
             services.AddCors(options => options.AddPolicy("AllowWebApp", builder =>
                                                                                  builder
                                                                                  .AllowAnyHeader()
-                                                                                  .AllowAnyOrigin()   
+                                                                                 .AllowAnyOrigin()   
                                                                                  .AllowAnyMethod()));
             services.AddControllers();
-
             services.AddScoped<ISeccionesCrud, SeccionesCrud >();
             services.AddScoped<IEstudiantesCrud, EstudiantesCrud>();
             services.AddScoped<IMaestrosCrud, MaestrosCrud>();
             services.AddScoped<IMateriasCrud, MateriasCrud>();
             services.AddScoped<IAdminNoticesCrud, AdminNoticesCrud>();
+            services.AddScoped<IUserAuth, UsersAuth>();
             services.AddDbContext<School_Manage_SystemContext>();
+
+            var appSettings = Configuration.GetSection("AppSettings");
+            services.Configure<AppSettings>(appSettings);
+
+            // JWT
+            var appSettingsSect = appSettings.Get<AppSettings>();
+            var key = Encoding.ASCII.GetBytes(appSettingsSect.Secret);
+            services.AddAuthentication(a =>
+            {
+                a.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                a.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+            }).AddJwtBearer(d =>
+            {
+                d.RequireHttpsMetadata = false;
+                d.SaveToken = true;
+                d.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false
+                };
+            });
 
             // Configuration for automapper
             var mapperConfig = new MapperConfiguration(m =>
@@ -71,6 +100,7 @@ namespace BussinessLayer
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

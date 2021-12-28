@@ -4,11 +4,13 @@ using ServicesLayer.Bussiness;
 using System.Threading.Tasks;
 using ServicesLayer.Services.StudentServices;
 using ServicesLayer.DTOs.BindingModel;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ServicesLayer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AdminEstudiantesController : ControllerBase
     {
         private readonly IEstudiantesCrud _estudiantesCrud;
