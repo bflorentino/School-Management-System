@@ -40,5 +40,17 @@ namespace ServicesLayer.Controllers
         {
             return Ok(await _maestrosCrud.AddSubjectToTeacher(materia));
         }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateTeacherInfo(EditMaestro maestro)
+        {
+            return Ok(await _maestrosCrud.EditTeacherInfo(maestro));
+        }
+
+        [HttpDelete("{cedula}")]
+        public async Task<IActionResult> UpdateTeacherInfo(string cedula)
+        {
+            return Ok(await _maestrosCrud.DeleteTeacher(cedula));
+        }
     }
 }

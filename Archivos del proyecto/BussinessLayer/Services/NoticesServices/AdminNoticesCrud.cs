@@ -32,11 +32,9 @@ namespace ServicesLayer.Services.NoticesServices
                 await dbContext.AddAsync(aviso);
                 await dbContext.SaveChangesAsync();
                 serverResponse.Data = "";
-                serverResponse.Message = "Aviso registrado exitosamente";
             }
             catch (Exception ex)
             {
-                serverResponse.Message = "Hubo un error al intentar ingresar el nuevo registro";
                 serverResponse.Success = false;
             }
 
@@ -56,10 +54,8 @@ namespace ServicesLayer.Services.NoticesServices
             }
             catch (Exception ex)
             {
-                serverResponse.Message = "Hubo un error al intentar ingresar el nuevo registro";
                 serverResponse.Success = false;
             }
-
             return serverResponse;
         }
     }

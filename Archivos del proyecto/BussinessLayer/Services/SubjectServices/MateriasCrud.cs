@@ -29,11 +29,9 @@ namespace ServicesLayer.Services.SubjectServices
                 await dbContext.AddAsync(mtria);
                 await dbContext.SaveChangesAsync();
                 serverResponse.Data = "";
-                serverResponse.Message = "Materia registrada exitosamente";
             }
             catch (Exception ex)
             {
-                serverResponse.Message = ex.Message;
                 serverResponse.Success = false;
             }
             return serverResponse;

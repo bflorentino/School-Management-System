@@ -32,11 +32,9 @@ namespace ServicesLayer.Bussiness
                 await dbContext.AddAsync(section);
                 await dbContext.SaveChangesAsync();
                 serverResponse.Data = "";
-                serverResponse.Message = "Seccion registrado exitosamente";
             }
             catch (Exception ex)
             {
-                serverResponse.Message = ex.Message;
                 serverResponse.Success = false;
             }
             return serverResponse;
@@ -52,7 +50,6 @@ namespace ServicesLayer.Bussiness
             }
             catch (Exception)
             {
-                serverResponse.Message = "Hubo un error al obtener los datos";
                 serverResponse.Success = false;
             }
             return serverResponse;

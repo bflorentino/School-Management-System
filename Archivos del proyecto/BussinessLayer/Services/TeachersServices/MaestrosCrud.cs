@@ -33,18 +33,16 @@ namespace ServicesLayer.Services.TeachersServices
                 await dbContext.AddAsync(mstro);
                 await dbContext.Usuarios.AddAsync(new Usuario
                 {
-                    NombreUsuario = maestro.NombreUsuario,
+                    NombreUsuario = maestro.Cedula,
                     PasswordHash = PasswordEncrypter.Compute256Hash(maestro.passwordSalt),
                     IdRol = 2,
                     FotoPerfil = null
                 });
                 await dbContext.SaveChangesAsync();
                 serverResponse.Data = "";
-                serverResponse.Message = "Maestro registrado exitosamente";
             }
             catch(Exception ex)
             {
-                serverResponse.Message = "Hubo un error al intentar ingresar el nuevo registro";
                 serverResponse.Success = false;
             }
 
@@ -62,7 +60,6 @@ namespace ServicesLayer.Services.TeachersServices
             }
             catch (Exception)
             {
-                serverResponse.Message = "Hubo un error al obtener los datos";
                 serverResponse.Success = false;
             }
             return serverResponse;
@@ -84,7 +81,6 @@ namespace ServicesLayer.Services.TeachersServices
             }
             catch (Exception)
             {
-                serverResponse.Message = "Hubo un error al obtener los datos";
                 serverResponse.Success = false;
             }
             return serverResponse;
@@ -97,13 +93,61 @@ namespace ServicesLayer.Services.TeachersServices
             {
                 MateriasMaestro materiaM = map.Map<MateriasMaestro>(materia);
                 await dbContext.MateriasMaestros.AddAsync(materiaM);
-                serverResponse.Message = "Registro agregado exitosamente";
                 await dbContext.SaveChangesAsync();
             }
             catch (Exception ex)
             {
                 serverResponse.Success=false;
-                serverResponse.Message = ex.Message;
+            }
+            return serverResponse;
+        }
+
+        public async Task<ServerResponse<List<MaestrosViewModel>>> EditTeacherInfo(EditMaestro teacher)
+        {
+            ServerResponse<List<MaestrosViewModel>> serverResponse = new ServerResponse<List<MaestrosViewModel>>();
+
+            try
+            {
+                var maestro = await dbContext.Maestros.FirstOrDefaultAsync(m => m.Cedula == teacher.Cedula);
+                
+                maestro.Nombre = teacher.Nombre;
+                maestro.Apellido  = teacher.Apellido;
+                maestro.IdArea = teacher.IdArea;
+                maestro.Telefono = teacher.Telefono;
+                maestro.CorreoElectronico = teacher.CorreoElectronico;
+
+                dbContext.Update(maestro);
+                await dbContext.SaveChangesAsync();
+
+                serverResponse = await GetAllTeachers();
+            }
+            catch (Exception)
+            {
+                serverResponse.Success = false;
+            }
+            return serverResponse;
+        }
+
+        public async Task<ServerResponse<List<MaestrosViewModel>>> DeleteTeacher(string cedula)
+        {
+            ServerResponse<List<MaestrosViewModel>> serverResponse = new ServerResponse<List<MaestrosViewModel>>();
+
+            try
+            {
+                var maestro = await dbContext.Maestros.FirstOrDefaultAsync(m => m.Cedula == cedula);
+
+                maestro.Estatus = false;
+                dbContext.Update(maestro);
+
+                var usuario = await dbContext.Usuarios.FirstOrDefaultAsync(u => u.NombreUsuario == cedula);
+                dbContext.Remove(usuario);
+                await dbContext.SaveChangesAsync();
+
+                serverResponse = await GetAllTeachers();
+            }
+            catch (Exception)
+            {
+                serverResponse.Success = false;
             }
             return serverResponse;
         }

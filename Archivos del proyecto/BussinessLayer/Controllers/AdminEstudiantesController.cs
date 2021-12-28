@@ -34,5 +34,17 @@ namespace ServicesLayer.Controllers
         {
             return Ok(await _estudiantesCrud.GetReportesByStudent(matricula));
         }
+
+        [HttpPut]
+        public async Task<IActionResult>EditStudent(EditStudent student)
+        {
+            return Ok(await _estudiantesCrud.EditStudentInfo(student));
+        }
+
+        [HttpDelete("{matricula}")]
+        public async Task<IActionResult>DeleteStudent(string matricula)
+        {
+            return Ok(await _estudiantesCrud.DeleteStudent(matricula));
+        }
     }
 }

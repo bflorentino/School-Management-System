@@ -13,5 +13,7 @@ namespace ServicesLayer.Services.TeachersServices
          Task<ServerResponse<List<MaestrosViewModel>>> GetAllTeachers();
          Task<ServerResponse<List<MaestrosViewModel>>> GetTeachersBySubject(string codigo);
          Task<ServerResponse<string>> AddSubjectToTeacher(MateriasMaestrosBinding materia);
+         Task<ServerResponse<List<MaestrosViewModel>>> EditTeacherInfo(EditMaestro teacher);
+        Task<ServerResponse<List<MaestrosViewModel>>> DeleteTeacher(string cedula);
     }
 }

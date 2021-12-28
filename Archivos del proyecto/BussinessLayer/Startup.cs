@@ -46,7 +46,7 @@ namespace BussinessLayer
             services.AddScoped<IMaestrosCrud, MaestrosCrud>();
             services.AddScoped<IMateriasCrud, MateriasCrud>();
             services.AddScoped<IAdminNoticesCrud, AdminNoticesCrud>();
-            services.AddSingleton<School_Manage_SystemContext>();
+            services.AddDbContext<School_Manage_SystemContext>();
 
             // Configuration for automapper
             var mapperConfig = new MapperConfiguration(m =>
