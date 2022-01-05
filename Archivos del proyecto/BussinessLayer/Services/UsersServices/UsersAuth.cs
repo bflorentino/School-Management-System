@@ -23,7 +23,6 @@ namespace ServicesLayer.Services.UsersServices
             this._appSettings = appSettings.Value;
         }
 
-
         public async Task<userAuthResponse> GetUser(UsuarioBinding user)
         {
            userAuthResponse userAuthResponse = new userAuthResponse();
@@ -34,11 +33,11 @@ namespace ServicesLayer.Services.UsersServices
             if (usuario != null)
             {
                 userAuthResponse.UserName = usuario.NombreUsuario;
+                userAuthResponse.Rol = usuario.IdRol;
                 userAuthResponse.Token = GetToken(usuario);
                
                 return userAuthResponse;
             }
-
             return null;
         }
 

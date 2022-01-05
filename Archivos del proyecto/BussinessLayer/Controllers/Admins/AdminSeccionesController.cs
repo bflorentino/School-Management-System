@@ -2,11 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using ServicesLayer.Bussiness;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ServicesLayer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "1")]
     public class AdminSeccionesController : ControllerBase
     {
         private readonly ISeccionesCrud _seccionesCrud;

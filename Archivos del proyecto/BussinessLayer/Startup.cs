@@ -14,6 +14,7 @@ using AutoMapper;
 using ServicesLayer.Bussiness;
 using ServicesLayer;
 using ServicesLayer.Services;
+using ServicesLayer.Services.Teachers;
 using ServicesLayer.Services.StudentServices;
 using ServicesLayer.Services.TeachersServices;
 using ServicesLayer.Services.SubjectServices;
@@ -42,14 +43,16 @@ namespace BussinessLayer
             services.AddCors(options => options.AddPolicy("AllowWebApp", builder =>
                                                                                  builder
                                                                                  .AllowAnyHeader()
-                                                                                 .AllowAnyOrigin()   
-                                                                                 .AllowAnyMethod()));
+                                                                                 //.AllowAnyOrigin()   
+                                                                                 .AllowAnyMethod()
+                                                                                 .AllowCredentials()));
             services.AddControllers();
             services.AddScoped<ISeccionesCrud, SeccionesCrud >();
             services.AddScoped<IEstudiantesCrud, EstudiantesCrud>();
             services.AddScoped<IMaestrosCrud, MaestrosCrud>();
             services.AddScoped<IMateriasCrud, MateriasCrud>();
             services.AddScoped<IAdminNoticesCrud, AdminNoticesCrud>();
+            services.AddScoped<ITeachersJobService, TeachersJobService>();
             services.AddScoped<IUserAuth, UsersAuth>();
             services.AddDbContext<School_Manage_SystemContext>();
 

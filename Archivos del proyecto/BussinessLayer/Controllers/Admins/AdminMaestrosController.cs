@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ServicesLayer.DTOS.BindingModel;
 using ServicesLayer.Services.TeachersServices;
@@ -8,6 +9,7 @@ namespace ServicesLayer.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "1")]
     public class AdminMaestrosController : ControllerBase
     {
         private IMaestrosCrud _maestrosCrud;
