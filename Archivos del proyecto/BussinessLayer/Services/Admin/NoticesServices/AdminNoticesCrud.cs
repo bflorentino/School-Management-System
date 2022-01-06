@@ -33,7 +33,7 @@ namespace ServicesLayer.Services.NoticesServices
                 await dbContext.SaveChangesAsync();
                 serverResponse.Data = "";
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 serverResponse.Success = false;
             }
@@ -52,7 +52,7 @@ namespace ServicesLayer.Services.NoticesServices
 
                 serverResponse.Data = notices.Select(s => _mapper.Map<AdminNoticesViewModel>(s)).ToList();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 serverResponse.Success = false;
             }

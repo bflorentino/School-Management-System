@@ -24,5 +24,23 @@ namespace ServicesLayer.Controllers.Teachers
         {
             return Ok(await _jobService.GetJobSections(cedula));
         }
+
+        [HttpGet("Viewnotices")]
+        public async Task<IActionResult> GetJobSections()
+        {
+            return Ok(await _jobService.GetNewNotices());
+        }
+
+        [HttpGet("ViewExcuses/{section}")]
+        public async Task<IActionResult> GetExcuses(string section)
+        {
+            return Ok(await _jobService.GetExcuses(section));
+        }
+
+        [HttpPost("Report")]
+        public async Task<IActionResult>AddNewReport(ReportesAEstBinding report)
+        {
+            return Ok(await _jobService.AddReportToStudent(report));
+        }
     }
 }

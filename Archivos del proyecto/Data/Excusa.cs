@@ -10,6 +10,7 @@ namespace Data
         public int IdExcusa { get; set; }
         public string Matricula { get; set; }
         public DateTime Fecha { get; set; }
+        public string Detalles { get; set; }
 
         public virtual Estudiante MatriculaNavigation { get; set; }
     }

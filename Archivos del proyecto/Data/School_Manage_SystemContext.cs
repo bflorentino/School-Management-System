@@ -247,6 +247,11 @@ namespace Data
 
                 entity.Property(e => e.IdExcusa).ValueGeneratedNever();
 
+                entity.Property(e => e.Detalles)
+                    .IsRequired()
+                    .HasMaxLength(300)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.Fecha).HasColumnType("date");
 
                 entity.Property(e => e.Matricula)

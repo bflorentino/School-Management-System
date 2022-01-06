@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using Data;
 using AutoMapper;
 using System.Threading.Tasks;
-using ServicesLayer.DTOs.BindingModel;
+using ServicesLayer.DTOS.BindingModel;
 using ServicesLayer.DTOS.ViewModel;
 using ServicesLayer.Services;
 using Microsoft.EntityFrameworkCore;
 
 namespace ServicesLayer.Services.Teachers
 {
-    public class TeachersJobService:ITeachersJobService
+    public class TeachersJobService : ITeachersJobService
     {
         private readonly IMapper _mapper;
         private readonly School_Manage_SystemContext _context;
@@ -22,36 +22,87 @@ namespace ServicesLayer.Services.Teachers
             _context = context;
         }
 
-        public async Task<ServerResponse<List<Teachers_Sections_ViewModel>>>GetJobSections(string cedula)
+        public async Task<ServerResponse<List<Teachers_Sections_ViewModel>>> GetJobSections(string cedula)
         {
             ServerResponse<List<Teachers_Sections_ViewModel>> serverResponse = new ServerResponse<List<Teachers_Sections_ViewModel>>();
 
             var sections = await (from ma in _context.MaestrosAulas
-                            join mm in _context.MateriasMaestros
-                            on ma.IdAsignacion equals mm.IdAsignacion
-                            join m in _context.Materias on mm.CodigoMateria equals m.CodigoMateria
-                            join s in _context.Secciones on ma.CodigoSeccion equals s.CodigoSeccion
-                            join ats in _context.AreasTecnicas on s.IdArea equals ats.IdArea
-                            where mm.Cedula == cedula
-                            select new Teachers_Sections_ViewModel
-                            {
-                                CodigoSeccion = s.CodigoSeccion,
-                                NombreMateria = m.Nombre,
-                                Nivel = s.Nivel,
-                                Seccion = s.Seccion,
-                                NombreSeccion = ats.Nombre
-                            } ).ToListAsync();
+                                  join mm in _context.MateriasMaestros
+                                  on ma.IdAsignacion equals mm.IdAsignacion
+                                  join m in _context.Materias on mm.CodigoMateria equals m.CodigoMateria
+                                  join s in _context.Secciones on ma.CodigoSeccion equals s.CodigoSeccion
+                                  join ats in _context.AreasTecnicas on s.IdArea equals ats.IdArea
+                                  where mm.Cedula == cedula
+                                  select new Teachers_Sections_ViewModel
+                                  {
+                                      CodigoSeccion = s.CodigoSeccion,
+                                      NombreMateria = m.Nombre,
+                                      Nivel = s.Nivel,
+                                      Seccion = s.Seccion,
+                                      NombreSeccion = ats.Nombre
+                                  }).ToListAsync();
 
             serverResponse.Data = sections;
 
             return serverResponse;
+        }
 
-            //var sections = await _context.MaestrosAulas.Include(ma => ma.IdAsignacionNavigation)
-            //                                                      .Include(ma => ma.IdAsignacionNavigation.CodigoMateria)
-            //                                                      .Include(ma => ma.CodigoSeccionNavigation)
-            //                                                      .Include(ma => ma.CodigoSeccionNavigation.IdAreaNavigation)
-            //                                                      .Where(ma => ma.IdAsignacionNavigation.Cedula == cedula).ToListAsync();
+        public async Task<ServerResponse<List<AdminNoticesViewModel>>> GetNewNotices()
+        {
+            ServerResponse<List<AdminNoticesViewModel>> serverResponse = new ServerResponse<List<AdminNoticesViewModel>>();
 
+            try
+            {
+            var notices = await _context.AvisosAdministracións.Where(c =>(c.DirigidoA == "Maestros" ||
+                                                                                                        c.DirigidoA == "Toda la escuela" ||
+                                                                                                        c.DirigidoA == "Toda la comunidad Educativa")
+                                                                                                        && (c.VigenciaHasta >= DateTime.Now)).ToListAsync();
+
+            serverResponse.Data = notices.Select(c => _mapper.Map<AdminNoticesViewModel>(c)).ToList();
+            }
+            catch (Exception)
+            {
+                serverResponse.Success = false;
+            }
+            return serverResponse;
+        }
+
+        public async Task<ServerResponse<List<ExcusesViewModel>>> GetExcuses(string section)
+        {
+            ServerResponse<List<ExcusesViewModel>> serverResponse = new ServerResponse<List<ExcusesViewModel>>();
+
+            try
+            {
+                var excuses = await _context.Excusas.Where(c => c.MatriculaNavigation.CodigoSeccion == section)
+                                                                      .Include(c => c.MatriculaNavigation).ToListAsync();
+
+                serverResponse.Data = excuses.Select(c => _mapper.Map<ExcusesViewModel>(c)).ToList();
+
+            }
+            catch (Exception ex)
+            {
+                serverResponse.Success = false;
+                serverResponse.Message = ex.Message;
+            }
+            return serverResponse;
+        }
+
+        public async Task<ServerResponse<string>> AddReportToStudent(ReportesAEstBinding report)
+        {
+            ServerResponse<string>serverResponse = new ServerResponse<string>();
+            try
+            {
+                await _context.AddAsync(_mapper.Map<ReportesAestudiante>(report));
+                serverResponse.Message = "El reporte fue añadido exitosamente";
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+
+                serverResponse.Success = false;
+                serverResponse.Message=ex.Message;
+            }
+            return serverResponse;
         }
     }
 }

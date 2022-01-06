@@ -24,8 +24,13 @@ namespace ServicesLayer
             CreateMap<DTOS.BindingModel.NewAdminNotices, AvisosAdministración>();
             CreateMap<AvisosAdministración, DTOS.ViewModel.AdminNoticesViewModel>();
 
+            CreateMap<DTOS.BindingModel.ReportesAEstBinding, ReportesAestudiante>();
             CreateMap<ReportesAestudiante, DTOS.ViewModel.ReportesEstViewModel>()
                             .ForMember(r => r.Nombre, o => o.MapFrom(s => s.CedulaMaestroNavigation.Nombre));
+
+            CreateMap<Excusa, DTOS.ViewModel.ExcusesViewModel>()
+                .ForMember(r => r.Nombre, o => o.MapFrom(s => s.MatriculaNavigation.Nombre))
+                .ForMember(r => r.Apellido, o => o.MapFrom(s => s.MatriculaNavigation.Apellido));
         }
     }
 }
