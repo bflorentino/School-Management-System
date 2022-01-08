@@ -42,5 +42,17 @@ namespace ServicesLayer.Controllers.Teachers
         {
             return Ok(await _jobService.AddReportToStudent(report));
         }
+
+        [HttpPost("Notice")]
+        public async Task<IActionResult>AddNewNotice(NoticiasAEstBinding notice)
+        {
+            return Ok(await _jobService.AddNewNotice(notice));
+        }
+
+        [HttpGet("OwnNotices/{cedula}")]
+        public async Task <IActionResult>GetNotices(string cedula)
+        {
+            return Ok(await _jobService.GetOwnNotices(cedula));
+        }
     }
 }

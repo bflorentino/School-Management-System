@@ -9,7 +9,7 @@ namespace ServicesLayer.DTOS.ViewModel
         public string CedulaMaestro { get; set; }
         public string DetalleAviso { get; set; }
         public DateTime Fecha { get; set; }
-        public TimeSpan HoraRegistrado { get; set; }
+        public string HoraRegistrado { get; set; }
         public DateTime VigenciaHasta { get; set; }
         public List<string> CodigoSecciones { get; set; }   
     }

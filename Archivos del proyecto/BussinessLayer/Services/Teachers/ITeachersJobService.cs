@@ -13,5 +13,7 @@ namespace ServicesLayer.Services.Teachers
         Task<ServerResponse<List<AdminNoticesViewModel>>> GetNewNotices();
         Task<ServerResponse<List<ExcusesViewModel>>> GetExcuses(string section);
         Task<ServerResponse<string>> AddReportToStudent(ReportesAEstBinding report);
+        Task<ServerResponse<string>> AddNewNotice(NoticiasAEstBinding notice);
+        Task<ServerResponse<List<NoticiasAEstViewModel>>> GetOwnNotices(string cedula);
     }
 }

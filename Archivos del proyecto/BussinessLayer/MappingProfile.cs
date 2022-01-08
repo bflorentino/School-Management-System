@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using Data;
 using System.Collections.Generic;
+using ServicesLayer.DTOS.BindingModel;
+using ServicesLayer.DTOS.ViewModel;
+using ServicesLayer.DTOs.BindingModel;
 
 namespace ServicesLayer
 {
@@ -31,6 +34,9 @@ namespace ServicesLayer
             CreateMap<Excusa, DTOS.ViewModel.ExcusesViewModel>()
                 .ForMember(r => r.Nombre, o => o.MapFrom(s => s.MatriculaNavigation.Nombre))
                 .ForMember(r => r.Apellido, o => o.MapFrom(s => s.MatriculaNavigation.Apellido));
+
+            CreateMap<NoticiasAEstBinding, AvisosMaestro>();
+            CreateMap<AvisosMaestro, NoticiasAEstViewModel>();
         }
     }
 }

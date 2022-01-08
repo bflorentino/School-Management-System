@@ -24,7 +24,7 @@ namespace ServicesLayer.Services.Teachers
 
         public async Task<ServerResponse<List<Teachers_Sections_ViewModel>>> GetJobSections(string cedula)
         {
-            ServerResponse<List<Teachers_Sections_ViewModel>> serverResponse = new ServerResponse<List<Teachers_Sections_ViewModel>>();
+            var serverResponse = new ServerResponse<List<Teachers_Sections_ViewModel>>();
 
             var sections = await (from ma in _context.MaestrosAulas
                                   join mm in _context.MateriasMaestros
@@ -49,7 +49,7 @@ namespace ServicesLayer.Services.Teachers
 
         public async Task<ServerResponse<List<AdminNoticesViewModel>>> GetNewNotices()
         {
-            ServerResponse<List<AdminNoticesViewModel>> serverResponse = new ServerResponse<List<AdminNoticesViewModel>>();
+           var serverResponse = new ServerResponse<List<AdminNoticesViewModel>>();
 
             try
             {
@@ -69,7 +69,7 @@ namespace ServicesLayer.Services.Teachers
 
         public async Task<ServerResponse<List<ExcusesViewModel>>> GetExcuses(string section)
         {
-            ServerResponse<List<ExcusesViewModel>> serverResponse = new ServerResponse<List<ExcusesViewModel>>();
+            var  serverResponse = new ServerResponse<List<ExcusesViewModel>>();
 
             try
             {
@@ -102,6 +102,45 @@ namespace ServicesLayer.Services.Teachers
                 serverResponse.Success = false;
                 serverResponse.Message=ex.Message;
             }
+            return serverResponse;
+        }
+
+        public async Task<ServerResponse<string>> AddNewNotice(NoticiasAEstBinding notice)
+        {
+            var serverResponse = new ServerResponse<string>();
+            var aviso = _mapper.Map<AvisosMaestro>(notice);
+            await _context.AddAsync(aviso);
+
+             notice.CodigoSecciones.ForEach(async (c) =>
+             {
+                var avisoCurso = new AvisosCurso();
+                avisoCurso.IdAviso = notice.IdAviso;
+                avisoCurso.CodigoSeccion = c;
+                await _context.AddAsync(avisoCurso);
+            });
+
+            await _context.SaveChangesAsync();
+            serverResponse.Message = "Aviso agregado con éxito";
+            return serverResponse;
+        }
+
+        public async Task<ServerResponse<List<NoticiasAEstViewModel>>> GetOwnNotices(string cedula)
+        {
+            var serverResponse = new ServerResponse<List<NoticiasAEstViewModel>>();
+            serverResponse.Data = new List<NoticiasAEstViewModel>();
+            var avisos = await  _context.AvisosMaestros.Where(c => c.CedulaMaestro == cedula).ToListAsync();
+            var codigosSecciones = new List<string>();
+
+            avisos.ForEach((c) =>
+            {
+                codigosSecciones.Clear();
+                var avisosCursos = _context.AvisosCursos.Where(d => d.IdAviso == c.IdAviso).ToList();
+                var noticeMapped = _mapper.Map<NoticiasAEstViewModel>(c);
+                avisosCursos.ForEach((e) => codigosSecciones.Add(e.CodigoSeccion));
+                noticeMapped.CodigoSecciones = codigosSecciones;
+                serverResponse.Data.Add(noticeMapped);
+           });
+
             return serverResponse;
         }
     }
