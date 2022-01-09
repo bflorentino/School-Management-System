@@ -11,27 +11,27 @@ namespace ServicesLayer
     {
        public MappingProfile()
         {
-            CreateMap<DTOs.BindingModel.NewSeccion, Seccione>();
-            CreateMap<Seccione, DTOS.ViewModel.SectionsViewModel>();
+            CreateMap<NewSeccion, Seccione>();
+            CreateMap<Seccione, SectionsViewModel>();
 
-            CreateMap<DTOs.BindingModel.NewStudent, Estudiante>();
-            CreateMap<Estudiante, DTOS.ViewModel.StudentsViewModel>();
+            CreateMap<NewStudent, Estudiante>();
+            CreateMap<Estudiante, StudentsViewModel>();
             
-            CreateMap< DTOS.BindingModel.NewMaestro, Maestro>();
-            CreateMap< DTOS.BindingModel.MateriasMaestrosBinding, MateriasMaestro>();
-            CreateMap<Maestro, DTOS.ViewModel.MaestrosViewModel>();
+            CreateMap< NewMaestro, Maestro>();
+            CreateMap< MateriasMaestrosBinding, MateriasMaestro>();
+            CreateMap<Maestro, MaestrosViewModel>();
             
-            CreateMap<DTOS.BindingModel.NewSubject, Materia>();
-            CreateMap<Materia, DTOS.ViewModel.MateriasViewModel>();
+            CreateMap<NewSubject, Materia>();
+            CreateMap<Materia, MateriasViewModel>();
             
-            CreateMap<DTOS.BindingModel.NewAdminNotices, AvisosAdministración>();
-            CreateMap<AvisosAdministración, DTOS.ViewModel.AdminNoticesViewModel>();
+            CreateMap<NewAdminNotices, AvisosAdministración>();
+            CreateMap<AvisosAdministración, AdminNoticesViewModel>();
 
-            CreateMap<DTOS.BindingModel.ReportesAEstBinding, ReportesAestudiante>();
-            CreateMap<ReportesAestudiante, DTOS.ViewModel.ReportesEstViewModel>()
+            CreateMap<ReportesAEstBinding, ReportesAestudiante>();
+            CreateMap<ReportesAestudiante, ReportesEstViewModel>()
                             .ForMember(r => r.Nombre, o => o.MapFrom(s => s.CedulaMaestroNavigation.Nombre));
 
-            CreateMap<Excusa, DTOS.ViewModel.ExcusesViewModel>()
+            CreateMap<Excusa, ExcusesViewModel>()
                 .ForMember(r => r.Nombre, o => o.MapFrom(s => s.MatriculaNavigation.Nombre))
                 .ForMember(r => r.Apellido, o => o.MapFrom(s => s.MatriculaNavigation.Apellido));
 

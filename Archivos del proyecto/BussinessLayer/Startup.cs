@@ -25,6 +25,7 @@ using Data;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.EntityFrameworkCore;
 
 namespace BussinessLayer
 {
@@ -54,7 +55,9 @@ namespace BussinessLayer
             services.AddScoped<IAdminNoticesCrud, AdminNoticesCrud>();
             services.AddScoped<ITeachersJobService, TeachersJobService>();
             services.AddScoped<IUserAuth, UsersAuth>();
-            services.AddDbContext<School_Manage_SystemContext>();
+
+            services.AddDbContext<School_Manage_SystemContext>(option =>
+                option.UseSqlServer(Configuration["Server"]));
 
             var appSettings = Configuration.GetSection("AppSettings");
             services.Configure<AppSettings>(appSettings);
