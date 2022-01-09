@@ -1,3 +1,3 @@
 # School-Management-System
 
-Aplicación en Desarrollo
+Proyecto en Desarrollo
